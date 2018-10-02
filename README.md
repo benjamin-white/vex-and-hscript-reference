@@ -92,6 +92,8 @@ _Render Nodes_<br />
 
 ## _**Local / Geometry attributes**_
 
+**@age** Time a particle has been alive.<br />
+**@nage** <br />
 **@accel** <br/>
 **@center** <br/>
 **@dPdx** <br/>
@@ -101,12 +103,16 @@ _Render Nodes_<br />
 **@force** <br/>
 **@rest** <br/>
 **@torque** <br/>
-**@up** <br/>
+**@up** Up vector.<br/>
 **@uv** <br/>
-**@v** <br/>
+**@v** Velocity vector.<br/>
 **@backtrack** <br />
-**@orient** <br />
-**@rot** <br />
+**@orient** Rotation as a quarternion.<br />
+**@rot** Additional rotation quarternion, applied after the orientation attribute.<br />
+**@trans** For copies and instances, translation vector to apply.<br />
+**@pivot** For copies and instances, the local pivot vector.<br />
+**@shop_materialpath** <br />
+**@material_override** <br />
 **@pscale** Floating-point scale factor of a point.<br />
 **@ptnum** The current point's index.<br />
 **@numpt** Total number of points on the geometry.<br />
@@ -134,6 +140,7 @@ _Render Nodes_<br />
 **@resz** <br />
 **@group_\*** <br />
 **@name** <br />
+**@_volume_name_** In a volume wrangle, read or write to a volume.<br />
 **@instance** <br />
 **@Frame** Float frame ($T).<br />
 **@Time** Float time ($FF).<br />
