@@ -166,11 +166,13 @@ _Render Nodes_<br />
 **"vdb_value_type"** <br />
 **"vdb_is_saved_as_half_float"** Disk space saver.
 
+
+
 # VEX Wrangle Cheat Sheet
-_**Found %amp; taken from John Kunz | August 22nd, 2018**_
+_**Found &amp; taken from John Kunz | August 22nd, 2018**_
 ===
 
-**_Global Variables._**
+**_Global Variables._**<br>
 A list of variables available in wrangles. The type indicator isn't needed, but is included as a reminder. Available in all SOP wrangles
 ```
 f@Frame     //The current floating frame number, equivalent to the $FF Hscript variable
@@ -199,7 +201,7 @@ i@ix, i@iy, i@iz        //Voxel indices. For dense volumes (non-VDB) these range
 i@resx, i@resy, i@resz  //The resolution of the current volume.
 ```
 
-_Common Geometry Attributes._<br />
+**_Common Geometry Attributes._**<br />
 Frequently used attributes. Houdini knows to cast these to the appropriate VEX datatype.
 
 ```
@@ -231,7 +233,7 @@ Frequently used attributes. Houdini knows to cast these to the appropriate VEX d
 @instance   // Path of an object node to be instanced at render time.
 ```
 
-_Specifying VEX Data Types_<br />
+**_Specifying VEX Data Types_**<br />
 The following characters are used to cast to the corresponding data type.
 ```
 float       f@name    // Floating point scalar values.
@@ -245,7 +247,7 @@ matrix      4@name    // Sixteen floating point values representing a 3D transfo
 string      s@name    // A string of characters.
 ```
 
-_Channel Shortcut Syntax_<br />
+**_Channel Shortcut Syntax_**<br />
 This is the syntax used to hint at the data type of auto generated wrangle parameters.
 ```
 ch('flt1');             // Float
@@ -261,7 +263,7 @@ vector(chramp('c', x)); // RGB Ramp
 ```
 
 
-_Accessing Attributes on Other Inputs and Nodes_<br />
+**_Accessing Attributes on Other Inputs and Nodes_**<br />
 This syntax is used to refer to nodes wired into the inputs of the wrangle, or other nodes in the network.
 ```
 // 'opinput:X' is the most legible and always works (the first input is input 0).
@@ -293,7 +295,7 @@ point('op:/obj/geo1/OUT', 'P', i@ptnum)
 point('op:../../OUT', 'P', i@ptnum)
 ```
 
-_Copying and Instancing Attributes_<br />
+**_Copying and Instancing Attributes_**<br />
 When copying or instancing, Houdini looks for these point attributes to customize each copy/instance.
 ```
 p@orient                    // Orientation of the copy.
@@ -315,7 +317,7 @@ s@instancepath              // Geometry to instance. This is either a path to a 
 ```
 
 
-_DOP Particle Attributes_<br />
+**_DOP Particle Attributes_**<br />
 A particle system is first and foremost driven by attributes. Here are some of the attributes used.
 ```
 f@age       // Time in seconds since the particle was born.
@@ -332,217 +334,217 @@ s@pospath   // The path to the object that the particle is colliding with.
 i@posprim   // Which collision primitive in the path geometry whose position we wish to refer to.
 v@posuv     // Parametric uv on the collision primitive.
 
-i@hittotal  // The cumulative total of all hits for the particle (only incremented once per timestep).
-i@has_pprevious // This is set to 1 if v@pprevious contains valid values.
-v@pprevious // Stores the position of the particle on the previous frame.  Used for collision detection.
-i@hitnum    // The number of times the particle collided in the last POP Collision Detect.
-s@hitpath   // The path to the object that was hit. A path to a file on disk or an op: path.
-i@hitprim   // The primitive hit. Could be -1 if it the collision detector couldn’t figure out which prim.
-v@hituv     // The parametric UV space on the primitive.
-v@hitpos    // Where the hit actually occurred.  Useful if the colliding object was moving.
-v@hitnml    // The normal of the surface at the time of the collision.
-v@hitv      // The velocity of the surface at the time of the collision.
-f@hittime   // When the collision occurred, that could be within a frame.
-f@hitimpulse// Records how much of an impulse was needed for the collision resolution.  varies with timestep.
-f@bounce    // When particles bounce off another object, this controls how much energy they keep.
-f@bounceforward // Controls how much energy they keep in the tangential direction.
-f@friction  // When particles bounce, they are slowed down proportional to how hard they hit.
-s@collisionignore   // Objects that match this pattern will not be collided.
+i@hittotal        // The cumulative total of all hits for the particle (only incremented once per timestep).
+i@has_pprevious   // This is set to 1 if v@pprevious contains valid values.
+v@pprevious       // Stores the position of the particle on the previous frame.  Used for collision detection.
+i@hitnum          // The number of times the particle collided in the last POP Collision Detect.
+s@hitpath         // The path to the object that was hit. A path to a file on disk or an op: path.
+i@hitprim         // The primitive hit. Could be -1 if it the collision detector couldn’t figure out which prim.
+v@hituv           // The parametric UV space on the primitive.
+v@hitpos          // Where the hit actually occurred.  Useful if the colliding object was moving.
+v@hitnml          // The normal of the surface at the time of the collision.
+v@hitv            // The velocity of the surface at the time of the collision.
+f@hittime         // When the collision occurred, that could be within a frame.
+f@hitimpulse      // Records how much of an impulse was needed for the collision resolution.  varies with timestep.
+f@bounce          // When particles bounce off another object, this controls how much energy they keep.
+f@bounceforward   // Controls how much energy they keep in the tangential direction.
+f@friction        // When particles bounce, they are slowed down proportional to how hard they hit.
+s@collisionignore // Objects that match this pattern will not be collided.
 
-f@force     // Forces on the particle for this frame.
-f@mass      // Inertia of the particle.
-v@spinshape // This is multiplied by f@pscale to determine the shape of the particle for rotational inertia.
-f@drag      // How much the particle is effected by any wind effects.
-f@dragexp   // Ranges from 1 to 2, default is set on the solver.  Used for both angular and linear drag.
-v@dragshape // How much the particle is dragged in each of its local axes.
-v@dragcenter// If specified, drag forces will also generate torques on the particle.
-v@targetv   // The local wind speed. Thought of as the goal, or target, velocity for the particle.
-f@airresist // How important it is to match the wind speed.  Thickness of the air.
-f@speedmin  // Minumum speed, in units per second, that a particle can move.
-f@speedmax  // Maximum speed, in units per second, that a particle can move.
+f@force      // Forces on the particle for this frame.
+f@mass       // Inertia of the particle.
+v@spinshape  // This is multiplied by f@pscale to determine the shape of the particle for rotational inertia.
+f@drag       // How much the particle is effected by any wind effects.
+f@dragexp    // Ranges from 1 to 2, default is set on the solver.  Used for both angular and linear drag.
+v@dragshape  // How much the particle is dragged in each of its local axes.
+v@dragcenter // If specified, drag forces will also generate torques on the particle.
+v@targetv    // The local wind speed. Thought of as the goal, or target, velocity for the particle.
+f@airresist  // How important it is to match the wind speed.  Thickness of the air.
+f@speedmin   // Minumum speed, in units per second, that a particle can move.
+f@speedmax   // Maximum speed, in units per second, that a particle can move.
 
-p@orient    // Orientation of the particle.  Used for figuring out 'local' forces.
-v@w         // Angular speed of the particle.  A vector giving the rotation axis.
-v@torque    // The equivalent of force for spins. No inertial tensor (the equivalent of mass) is supported.
-v@targetw   // The goal spin direction and speed for this particle.
-f@spinresist// How important it is to match the targetw.
-f@spinmin   // Minumum speed in radians per second that a particle can spin.
-f@spinmax   // Maximum speed in radians per second that a particle can spin.
+p@orient     // Orientation of the particle.  Used for figuring out 'local' forces.
+v@w          // Angular speed of the particle.  A vector giving the rotation axis.
+v@torque     // The equivalent of force for spins. No inertial tensor (the equivalent of mass) is supported.
+v@targetw    // The goal spin direction and speed for this particle.
+f@spinresist // How important it is to match the targetw.
+f@spinmin    // Minumum speed in radians per second that a particle can spin.
+f@spinmax    // Maximum speed in radians per second that a particle can spin.
 ```
 
 
-_DOP Grains Attributes_<br />
+**_DOP Grains Attributes_**<br />
 Particles under control of POP Grains have the ispbd attribute set to 1. This causes them to not perform normal movement update in the POP Solver, as the actual motion update is done in this node.
 ```
-i@ispbd     // A value of 1 causes the particle to behave as grains.
-f@pscale    // Used to determine the radius of each particle.
-f@repulsionweight   // How much the particle collision forces are weighted.
-f@repulsionstiffness// How strongly particles are kept apart.  Higher values result in less bouncy repulsion.
-f@attractionweight  // How much the particles will naturally stick together when close.
-f@attractionstiffness   // How strongly nearby particles stick to each other.
-v@targetP   // Particles are constrained to this location.
-f@targetweight      // The weight of the v@targetP constraints.
-f@targetstiffness   // The stiffness with which particles are fixed to their v@targetP attribute.
+i@ispbd               // A value of 1 causes the particle to behave as grains.
+f@pscale              // Used to determine the radius of each particle.
+f@repulsionweight     // How much the particle collision forces are weighted.
+f@repulsionstiffness  // How strongly particles are kept apart.  Higher values result in less bouncy repulsion.
+f@attractionweight    // How much the particles will naturally stick together when close.
+f@attractionstiffness // How strongly nearby particles stick to each other.
+v@targetP             // Particles are constrained to this location.
+f@targetweight        // The weight of the v@targetP constraints.
+f@targetstiffness     // The stiffness with which particles are fixed to their v@targetP attribute.
 
-f@restlength// Particles connected by polylines will be forced to maintain this distance (prim attribute).
-f@constraintweight  // Scale, on a per-particle basis of the constraint force.
-f@constraintstiffness   // This controls the stiffness on a per-particle basis.
-f@strain    // This primitive attribute records how much the constraint is stretched.
-f@strength  // If f@strain exceeds this primitive attribute, the constraint will be removed.
+f@restlength          // Particles connected by polylines will be forced to maintain this distance (prim attribute).
+f@constraintweight    // Scale, on a per-particle basis of the constraint force.
+f@constraintstiffness // This controls the stiffness on a per-particle basis.
+f@strain              // This primitive attribute records how much the constraint is stretched.
+f@strength            // If f@strain exceeds this primitive attribute, the constraint will be removed.
 ```
 
 
-_DOP Packed RBD Attributes_<br />
+**_DOP Packed RBD Attributes_**<br />
 The Bullet Solver uses several point attributes to store the properties of each piece of a packed object.
 ```
 i@active    // Specifies whether the object is able to react to other objects.
 i@animated  // Specifies whether the transform should be updated from its SOP geometry at each timestep.
 i@deforming // Specifies whether the collision shape should be rebuilt from its SOP geometry each timestep.
 
-f@bounce    // The elasticity of the object.
-i@bullet_add_impact // Impacts that occur during the sim will be recorded in the Impacts or Feedback data.
-i@bullet_ignore     // Specifies whether the object should be completely ignored by the Bullet solver.
-f@bullet_angular_sleep_threshold// The sleeping threshold for the object’s angular velocity.
-f@bullet_linear_sleep_threshold // The sleeping threshold for the object’s linear velocity.
-i@bullet_want_deactivate// Disables simulation of a non-moving object until the object moves again.
-i@computecom// Specifies whether the center of mass should be computed from the collision shape.
-i@computemass   // Specifies whether the mass should be computedfrom the collision shape and density.
-f@creationtime  // Stores the simulation time at which the object was created.
-i@dead  // Specifies whether the object should be deleted during the next solve.
-f@density   // The mass of an object is its volume times its density.
-f@friction  // The coefficient of friction of the object.
-f@inertialtensorstiffness   // Rotational stiffness.  A scale factor applied to the inertial tensor.
-i@inheritvelocity   // v and w point attributes from the SOP geometry will override the initial velocity.
-f@mass  // The mass of the object.
-s@name  // A unique name for the object. Used by Constraint Networks.
-p@orient// The orientation of the object.
-v@P     // The current position of the object’s center of mass.
-v@pivot // The pivot that the orientation applies to. If i@computecom is non-zero, this is auto-computed.
-v@v     // Linear velocity of the object.
-v@w     // Angular velocity of the object, in radians per second.
+f@bounce                         // The elasticity of the object.
+i@bullet_add_impact              // Impacts that occur during the sim will be recorded in the Impacts or Feedback data.
+i@bullet_ignore                  // Specifies whether the object should be completely ignored by the Bullet solver.
+f@bullet_angular_sleep_threshold // The sleeping threshold for the object’s angular velocity.
+f@bullet_linear_sleep_threshold  // The sleeping threshold for the object’s linear velocity.
+i@bullet_want_deactivate         // Disables simulation of a non-moving object until the object moves again.
+i@computecom                     // Specifies whether the center of mass should be computed from the collision shape.
+i@computemass                    // Specifies whether the mass should be computedfrom the collision shape and density.
+f@creationtime                   // Stores the simulation time at which the object was created.
+i@dead                           // Specifies whether the object should be deleted during the next solve.
+f@density                        // The mass of an object is its volume times its density.
+f@friction                       // The coefficient of friction of the object.
+f@inertialtensorstiffness        // Rotational stiffness.  A scale factor applied to the inertial tensor.
+i@inheritvelocity                // v and w point attributes from the SOP geometry will override the initial velocity.
+f@mass                           // The mass of the object.
+s@name                           // A unique name for the object. Used by Constraint Networks.
+p@orient                         // The orientation of the object.
+v@P                              // The current position of the object’s center of mass.
+v@pivot                          // The pivot that the orientation applies to. If i@computecom is non-zero, this is auto-computed.
+v@v                              // Linear velocity of the object.
+v@w                              // Angular velocity of the object, in radians per second.
 
-i@bullet_adjust_geometry    // Shrinks the collision geometry.
-i@bullet_autofit    // Use the bounds of the object for Box, Capsule, Cylinder, Sphere, or Plane.
-f@bullet_collision_margin   // Padding distance between collision shapes.
-s@bullet_georep     // Can be convexhull, concave, box, capsule, cylinder, compound, sphere, or plane.
-i@bullet_groupconnected     // Create convex hull per set of connected primitives.
-f@bullet_length     // The length of the Capsule or Cylinder collision shape in the Y direction.
-v@bullet_primR  // Orientation of the Box, Capsule, Cylinder, or Plane collision shape.
-v@bullet_primS  // Size of the Box collision shape.
-v@bullet_primT  // Position of the Box, Sphere, Capsule, Cylinder, or Plane collision shape.
-f@bullet_radius // Radius of the Sphere, Capsule, or Cylinder collision shape.
-f@bullet_shrink_amount  // Specifies the amount of resizing done by Shrink Collision Geometry.
+i@bullet_adjust_geometry  // Shrinks the collision geometry.
+i@bullet_autofit          // Use the bounds of the object for Box, Capsule, Cylinder, Sphere, or Plane.
+f@bullet_collision_margin // Padding distance between collision shapes.
+s@bullet_georep           // Can be convexhull, concave, box, capsule, cylinder, compound, sphere, or plane.
+i@bullet_groupconnected   // Create convex hull per set of connected primitives.
+f@bullet_length           // The length of the Capsule or Cylinder collision shape in the Y direction.
+v@bullet_primR            // Orientation of the Box, Capsule, Cylinder, or Plane collision shape.
+v@bullet_primS            // Size of the Box collision shape.
+v@bullet_primT            // Position of the Box, Sphere, Capsule, Cylinder, or Plane collision shape.
+f@bullet_radius           // Radius of the Sphere, Capsule, or Cylinder collision shape.
+f@bullet_shrink_amount    // Specifies the amount of resizing done by Shrink Collision Geometry.
 
-s@activationignore  // Won't be activated by collisions with any objects that match this pattern.
-s@collisiongroup    // Specifies the name of a collision group that this object belongs to.
-s@collisionignore   // The object will not collide against any objects that match this pattern.
-f@min_activation_impulse// Minimum impulse that will cause the object to switch from inactive to active.
+s@activationignore       // Won't be activated by collisions with any objects that match this pattern.
+s@collisiongroup         // Specifies the name of a collision group that this object belongs to.
+s@collisionignore        // The object will not collide against any objects that match this pattern.
+f@min_activation_impulse // Minimum impulse that will cause the object to switch from inactive to active.
 
-f@speedmin  // Minumum speed, in units per second, that a particle can move.
-f@speedmax  // Maximum speed, in units per second, that a particle can move.
-f@spinmin   // Minumum speed in radians per second that a particle can spin.
-f@spinmax   // Maximum speed in radians per second that a particle can spin.
-f@accelmax  // Limits the change in the object’s speed that is caused by enforcing constraints.
-f@angaccelmax   // Limits the change in the object’s angular speed that is caused by enforcing constraints.
+f@speedmin    // Minumum speed, in units per second, that a particle can move.
+f@speedmax    // Maximum speed, in units per second, that a particle can move.
+f@spinmin     // Minumum speed in radians per second that a particle can spin.
+f@spinmax     // Maximum speed in radians per second that a particle can spin.
+f@accelmax    // Limits the change in the object’s speed that is caused by enforcing constraints.
+f@angaccelmax // Limits the change in the object’s angular speed that is caused by enforcing constraints.
 
-f@airresist // Specifies how important it is to match the target velocity (v@targetv).
-f@drag      // How much the the v@targetv and f@airresist attributes effect the object.
-f@dragexp   // Ranges from 1 to 2, default is set on the solver.  Used for both angular and linear drag.
-v@force     // Specifies a force that will be applied to the center of mass of the object.
-f@spinresist// Specifies how important it is to match the target angular velocity (v@targetw).
-v@targetv   // Target velocity for the object. Used in combination with the f@airresist attribute.
-v@targetw   // Target angular velocity for the object. Used in combination with the f@spinresist attribute.
-v@torque    // Specifies a torque that will be applied to the object.
+f@airresist  // Specifies how important it is to match the target velocity (v@targetv).
+f@drag       // How much the the v@targetv and f@airresist attributes effect the object.
+f@dragexp    // Ranges from 1 to 2, default is set on the solver.  Used for both angular and linear drag.
+v@force      // Specifies a force that will be applied to the center of mass of the object.
+f@spinresist // Specifies how important it is to match the target angular velocity (v@targetw).
+v@targetv    // Target velocity for the object. Used in combination with the f@airresist attribute.
+v@targetw    // Target angular velocity for the object. Used in combination with the f@spinresist attribute.
+v@torque     // Specifies a torque that will be applied to the object.
 
-i@bullet_autofit_valid  // Stores whether the solver has already computed collision shape attributes.
-i@bullet_sleeping   // Tracks whether the object has been put to sleep by the solver.
-f@deactivation_time // Amount of time the speed has been below the Linear Threshold or Angular Threshold.
-i@found_overlap // Used by the solver to determine whether it has performed the overlap test.
-i@id    // A unique identifier for the object.
-i@nextid// Stores the i@id the solver will assign to the next new object.
+i@bullet_autofit_valid // Stores whether the solver has already computed collision shape attributes.
+i@bullet_sleeping      // Tracks whether the object has been put to sleep by the solver.
+f@deactivation_time    // Amount of time the speed has been below the Linear Threshold or Angular Threshold.
+i@found_overlap        // Used by the solver to determine whether it has performed the overlap test.
+i@id                   // A unique identifier for the object.
+i@nextid               // Stores the i@id the solver will assign to the next new object.
 ```
 
 
-_DOP Constraint Network Attributes_<br />
+**_DOP Constraint Network Attributes_**<br />
 You can create attributes on the geometry to customize each constraint’s behavior and type. If a primitive attribute with the same name as a constraint property (such as damping) is present, the attribute value will be multiplied with the value from the constraint sub-data.
 ```
-i@anchor_id  // The anchor’s position will be bound to this point (or vertex).
-i@anchor_type   // Specifies if the anchor is attached to a point, vertex or agent transform.
-v@condir// The normal of a plane (i@condof==1) or axis (i@condof==2) the object can move on or rotate about.
-i@condof// Identifies the number of constrained degrees of freedom for an anchor (0 to 3).
-s@name  // The object the constraint is attached to.  An empty name attaches to world space position.
-v@P     // Identifies the initial world space position of the anchor.
-p@orient// Initial world space orientation of the anchor.  Takes precedence over v@r point attribute.
-v@r     // Identifies the initial world space orientation of the anchor as Euler angles.
-v@v     // Identifies the velocity of the world space position to which the constraint is attached.
-v@w     // Identifies the angular velocity of the world space position to which the constraint is attached.
+i@anchor_id   // The anchor’s position will be bound to this point (or vertex).
+i@anchor_type // Specifies if the anchor is attached to a point, vertex or agent transform.
+v@condir      // The normal of a plane (i@condof==1) or axis (i@condof==2) the object can move on or rotate about.
+i@condof      // Identifies the number of constrained degrees of freedom for an anchor (0 to 3).
+s@name        // The object the constraint is attached to.  An empty name attaches to world space position.
+v@P           // Identifies the initial world space position of the anchor.
+p@orient      // Initial world space orientation of the anchor.  Takes precedence over v@r point attribute.
+v@r           // Identifies the initial world space orientation of the anchor as Euler angles.
+v@v           // Identifies the velocity of the world space position to which the constraint is attached.
+v@w           // Identifies the angular velocity of the world space position to which the constraint is attached.
 
-s@constraint_name   // Prim attribute specifying the Data Name of the constraint to create.
-s@constraint_type   // Prim attribute specifying degrees of freedom ('position', 'rotation' or 'all').
+s@constraint_name       // Prim attribute specifying the Data Name of the constraint to create.
+s@constraint_type       // Prim attribute specifying degrees of freedom ('position', 'rotation' or 'all').
 s@next_constraint_name  // Prim attribute specifying the next constraint_name to use after broken.
 s@next_constraint_type  // Prim attribute specifying the next constraint_type to use after broken.
 i@propagate_iteration   // Detail attribute specifying number of impact propagations for glue constraints.
 
-f@force     // Prim attribute updated by the solver to contain the force applied to satisfy the constraint.
-f@distance  // Prim attribute updated by the solver to contain the distance between it's anchors.
-f@torque    // Prim attribute updated by the solver to contain the torque applied to satisfy the constraint.
-f@angle     // Prim attribute updated by the solver to contain the angle (in radians) between the anchors.
-f@impact    // Prim attribute updated by the solver to contain the accumulated impulses for the glue bond.
+f@force    // Prim attribute updated by the solver to contain the force applied to satisfy the constraint.
+f@distance // Prim attribute updated by the solver to contain the distance between it's anchors.
+f@torque   // Prim attribute updated by the solver to contain the torque applied to satisfy the constraint.
+f@angle    // Prim attribute updated by the solver to contain the angle (in radians) between the anchors.
+f@impact   // Prim attribute updated by the solver to contain the accumulated impulses for the glue bond.
 
-i@group_broken  // Any constraints that are in the broken primitive group will be ignored by solvers.
+i@group_broken // Any constraints that are in the broken primitive group will be ignored by solvers.
 ```
 
 
-_DOP Wire Attributes_<br />
+**_DOP Wire Attributes_**<br />
 You can create attributes on the wire object’s RestGeometry to influence its behavior. Most of these attributes allow fine-tuning of the wire by scaling values set in this node. Point, primitive, or detail attributes of the same name will be used if the vertex attributes are not present.
 ```
-f@width  // Width of each edge.
-f@density   //  Density of each point.
-p@orient// Initial orientation of each point. This value is stored as a quaternion.
-v@v     // Initial velocity of each point.
-v@w     // Initial angular velocity of each point measured in radians per second.
-f@friction  // Friction of each point.
-f@klinear   // Defines how strongly the wire resists stretching.
-f@damplinear// Defines how strongly the wire resists oscillation due to stretching forces.
-f@kangular  // Defines how strongly the wire resists bending.
-f@dampangular   // Defines how strongly the wire resists oscillation due to bending forces.
-f@targetstiffness   // Defines how strongly the wire resists deforming from the animated position.
-f@targetdamping // Defines how strongly the wire resists oscillation due to stretch forces.
-f@normaldrag// The component of drag in the directions normal to the wire.
-f@tangentdrag   // The component of drag in the direction tangent to the wire.
-i@nocollide // Collision detection for the edge is disabled (Only used if Collision Handling is SDF).
-v@restP // Rest position of each point.
-p@restorient// Rest orientation of each point.
-i@gluetoanimation   // Causes a point’s position and orientation to be constrained to the input geometry.
-i@pintoanimation    // Causes a point’s position to be constrained to the input geometry.
-v@animationP// Target position of each point.
-p@animationorient   // Target orientation of each point.
-v@animationv// Target velocity of each point.
-v@animationw// Target angular velocity of each point.
-i@independentcollisionallowed   // Toggle external collisions (Only non-SDF Geometric Collision).
-i@independentcollisionresolved  // Unresolved external collisions (Only non-SDF Geometric Collision).
-i@codependentcollisionallowed   // Toggle soft body collisions (Only non-SDF Geometric Collision).
-i@codependentcollisionresolved  // Unresolved toggle soft body collisions (Only non-SDF Geometric Collision).
-i@selfcollisionallowed  // Toggle self collisions (Only non-SDF Geometric Collision).
-i@selfcollisionresolved // Unresolved toggle self collisions (Only non-SDF Geometric Collision).
+f@width                        // Width of each edge.
+f@density                      //  Density of each point.
+p@orient                       // Initial orientation of each point. This value is stored as a quaternion.
+v@v                            // Initial velocity of each point.
+v@w                            // Initial angular velocity of each point measured in radians per second.
+f@friction                     // Friction of each point.
+f@klinear                      // Defines how strongly the wire resists stretching.
+f@damplinear                   // Defines how strongly the wire resists oscillation due to stretching forces.
+f@kangular                     // Defines how strongly the wire resists bending.
+f@dampangular                  // Defines how strongly the wire resists oscillation due to bending forces.
+f@targetstiffness              // Defines how strongly the wire resists deforming from the animated position.
+f@targetdamping                // Defines how strongly the wire resists oscillation due to stretch forces.
+f@normaldrag                   // The component of drag in the directions normal to the wire.
+f@tangentdrag                  // The component of drag in the direction tangent to the wire.
+i@nocollide                    // Collision detection for the edge is disabled (Only used if Collision Handling is SDF).
+v@restP                        // Rest position of each point.
+p@restorient                   // Rest orientation of each point.
+i@gluetoanimation              // Causes a point’s position and orientation to be constrained to the input geometry.
+i@pintoanimation               // Causes a point’s position to be constrained to the input geometry.
+v@animationP                   // Target position of each point.
+p@animationorient              // Target orientation of each point.
+v@animationv                   // Target velocity of each point.
+v@animationw                   // Target angular velocity of each point.
+i@independentcollisionallowed  // Toggle external collisions (Only non-SDF Geometric Collision).
+i@independentcollisionresolved // Unresolved external collisions (Only non-SDF Geometric Collision).
+i@codependentcollisionallowed  // Toggle soft body collisions (Only non-SDF Geometric Collision).
+i@codependentcollisionresolved // Unresolved toggle soft body collisions (Only non-SDF Geometric Collision).
+i@selfcollisionallowed         // Toggle self collisions (Only non-SDF Geometric Collision).
+i@selfcollisionresolved        // Unresolved toggle self collisions (Only non-SDF Geometric Collision).
 ```
 
-_DOP FLIP Attributes_<br />
+**_DOP FLIP Attributes_**<br />
 The FLIP Solver contains an embedded POP Solver, enabling the use of many POP attributes.
 ```
-f@pscale// Particle scale
-v@v     // Particle velocity
-f@viscosity // The "thickness" of a fluid.
-f@density   // The mass per unit volume.
+f@pscale        // Particle scale
+v@v             // Particle velocity
+f@viscosity     // The "thickness" of a fluid.
+f@density       // The mass per unit volume.
 f@temperature   // The temperature of the fluid.
-f@vorticity // Measures the amount of circulation in the fluid.
-f@divergence// Positive values cause particles to spread out, negative cause them to clump together.
-v@rest  // Used to track the position of the fluid over time.
-v@rest2 // Used for blending dual rest attributes, avoids stretching.
-f@droplet   // Identifies particles that separate from the main body of fluid.
+f@vorticity     // Measures the amount of circulation in the fluid.
+f@divergence    // Positive values cause particles to spread out, negative cause them to clump together.
+v@rest          // Used to track the position of the fluid over time.
+v@rest2         // Used for blending dual rest attributes, avoids stretching.
+f@droplet       // Identifies particles that separate from the main body of fluid.
 f@underresolved // Particles that haven't fully resolved on the grid.
-i@ballistic // Specifies particles which will be ignored by the fluid solve.
-v@Lx    // Angular momentum X axis
-v@Ly    // Angular momentum Y axis
-v@Lz    // Angular momentum Z axis
+i@ballistic     // Specifies particles which will be ignored by the fluid solve.
+v@Lx            // Angular momentum X axis
+v@Ly            // Angular momentum Y axis
+v@Lz            // Angular momentum Z axis
 ```
